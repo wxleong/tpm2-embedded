@@ -1,4 +1,6 @@
-set(CMAKE_C_COMPILER arm-linux-gnueabihf-gcc)
+# for cross-compile
+#set(CMAKE_C_COMPILER arm-linux-gnueabihf-gcc)
+
 #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-builtin-declaration-mismatch")
 
 # kernel config is needed to prevent build errors

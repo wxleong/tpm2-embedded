@@ -7,7 +7,6 @@ Enable OPTIGA™ TPM 2.0 on bare-metal / non-Linux embedded systems.
 # Table of Contents
 
 - **[Prerequisites](#prerequisites)**
-- **[Mbed TLS Library](#mbed-tls-library)**
 - **[Decouple tpm2-tss Library](#decouple-tpm2-tss-library)**
 - **[Sample Application](#sample-application)**
 - **[References](#references)**
@@ -17,20 +16,12 @@ Enable OPTIGA™ TPM 2.0 on bare-metal / non-Linux embedded systems.
 
 - Tested on Raspberry Pi 4 Model B with Iridium 9670 TPM 2.0 board [[1]](#1) 
 - Set up the Raspberry Pi according to [[2]](#2) but skipping sections "Set Up TSS and Tools" and "Enable SPI TPM 2.0"
+- Decouple tpm2-tss [[3]](#3) library following guide from [[5]](#5)
 - Install dependencies:
     ```
-    $ sudo apt install cmake crossbuild-essential-armhf
+    $ sudo apt install cmake
     ```
-
-# Mbed TLS Library
-
-```
-$ git clone https://github.com/ARMmbed/mbedtls ~/mbedtls
-$ cd ~/mbedtls
-$ git checkout mbedtls-2.28.0
-$ cd library/
-$ make -j$(nproc)
-```
+    <!-- $ sudo apt install cmake crossbuild-essential-armhf -->
 
 # Decouple TIS/PTP Library
 
@@ -38,11 +29,16 @@ Download kernel source and generate the headers:
 ```
 $ git clone --depth 1 --branch 1.20220120 https://github.com/raspberrypi/linux ~/linux
 $ cd ~/linux
-$ make -j$(nproc) ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- bcm2711_defconfig
-$ make -j$(nproc) ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- Image
+$ make -j$(nproc) bcm2711_defconfig
+$ make -j$(nproc) Image
 $ ls arch/arm/include/generated
 asm  calls-eabi.S  calls-oabi.S  uapi
 ```
+<!--
+Cross-compile:
+$ make -j$(nproc) ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- bcm2711_defconfig
+$ make -j$(nproc) ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- Image
+-->
 <!--
 Not all profiles will work, tested the following and NOT working:
  - multi_v7_defconfig: Beaglebone Black Wireless (32-bit ARM)
@@ -62,10 +58,17 @@ $ cmake --build . -j$(nproc)
 <!-- Linux kernel .cofig file will be converted to ~/linux/include/generated/autoconf.h -->
 <!-- autoconf.h is included in ~/linux/kconfig.h -->
 
+# Sample Application
+
+
+
 # References
 
 <a id="1">[1] https://www.infineon.com/cms/en/product/evaluation-boards/iridium9670-tpm2.0-linux/</a><br>
 <a id="2">[2] https://github.com/wxleong/tpm2-rpi4</a><br>
+<a id="3">[3] https://github.com/tpm2-software/tpm2-tss</a><br>
+<a id="4">[4] https://github.com/wxleong/tpm2-mbedtls</a><br>
+<a id="5">[5] https://github.com/wxleong/tpm2-embedded-linux</a><br>
 
 # License
 
