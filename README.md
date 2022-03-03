@@ -16,10 +16,10 @@ Enable OPTIGA™ TPM 2.0 on bare-metal / non-Linux embedded systems.
 # Prerequisites
 
 - Tested on Raspberry Pi 4 Model B with Iridium 9670 TPM 2.0 board [[1]](#1) 
-- Set up the Raspberry Pi according to [[2]](#2) but skipping section "Set Up TSS and Tools"
+- Set up the Raspberry Pi according to [[2]](#2) but skipping sections "Set Up TSS and Tools" and "Enable SPI TPM 2.0"
 - Install dependencies:
     ```
-    $ sudo apt install cmake
+    $ sudo apt install cmake crossbuild-essential-armhf
     ```
 
 # Mbed TLS Library
@@ -34,35 +34,33 @@ $ make -j$(nproc)
 
 # Decouple TIS/PTP Library
 
+Download kernel source and generate the headers:
 ```
-$ git clone --depth 1 --branch v5.16 https://github.com/torvalds/linux ~/linux
-
+$ git clone --depth 1 --branch 1.20220120 https://github.com/raspberrypi/linux ~/linux
+$ cd ~/linux
+$ make -j$(nproc) ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- bcm2711_defconfig
+$ make -j$(nproc) ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- Image
+$ ls arch/arm/include/generated
+asm  calls-eabi.S  calls-oabi.S  uapi
 ```
+<!--
+Not all profiles will work, tested the following and NOT working:
+ - multi_v7_defconfig: Beaglebone Black Wireless (32-bit ARM)
+ - bcm2835_defconfig: Raspberry Pi (32-bit ARM)
+ - tinyconfig: 32-bit ARM
+-->
 
-# Decouple tpm2-tss Library
-
+Extract TIS library:
 ```
-$ git clone https://github.com/tpm2-software/tpm2-tss ~/tpm2-tss
-$ cd ~/tpm2-tss
-$ git checkout 3.2.0
-
 $ git clone https://github.com/wxleong/tpm2-embedded ~/tpm2-embedded
-$ cp -r ~/tpm2-embedded/tpm2-tss/cmake ~/tpm2-tss/
-$ cd ~/tpm2-tss/cmake
-$ rm -rf CMakeFiles
+$ cp -r ~/tpm2-embedded/linux/cmake ~/linux/
+$ cd ~/linux/cmake
+$ rm -rf CMakeFiles/ CMakeCache.txt
 $ cmake -j$(nproc) .
 $ cmake --build . -j$(nproc)
 ```
-
-# Sample Application
-
-```
-$ git clone https://github.com/wxleong/tpm2-mbedtls ~/tpm2-mbedtls
-$ cp -f ~/tpm2-embedded/tpm2-mbedtls/Makefile ~/tpm2-mbedtls/code/
-$ cd ~/tpm2-mbedtls/code 
-$ make -j$(nproc)
-$ ./main
-```
+<!-- Linux kernel .cofig file will be converted to ~/linux/include/generated/autoconf.h -->
+<!-- autoconf.h is included in ~/linux/kconfig.h -->
 
 # References
 
