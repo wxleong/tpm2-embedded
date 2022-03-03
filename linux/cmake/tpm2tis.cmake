@@ -44,7 +44,7 @@ target_include_directories(tpm2tis
   ${INCLUDE_UAPI_DIR}
   ${INCLUDE_ARCH_ARM_DIR}
   ${INCLUDE_ARCH_ARM_GEN_DIR}
-#  ${INCLUDE_ARCH_ARM_GEN_UAPI_DIR}
+  ${INCLUDE_ARCH_ARM_GEN_UAPI_DIR}
 #  PUBLIC
 #  ${TPM2TSS_ROOT_DIR}/include/tss2
 )

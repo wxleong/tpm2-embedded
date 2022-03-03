@@ -19,7 +19,7 @@ Enable OPTIGA™ TPM 2.0 on bare-metal / non-Linux embedded systems.
 - Decouple tpm2-tss [[3]](#3) library following guide from [[5]](#5)
 - Install dependencies:
     ```
-    $ sudo apt install cmake
+    $ sudo apt install cmake git bc bison flex libssl-dev make
     ```
     <!-- $ sudo apt install cmake crossbuild-essential-armhf -->
 
@@ -32,8 +32,12 @@ $ cd ~/linux
 $ make -j$(nproc) bcm2711_defconfig
 $ make -j$(nproc) Image
 $ ls arch/arm/include/generated
-asm  calls-eabi.S  calls-oabi.S  uapi
+asm  uapi
 ```
+<!--
+No need to complete the "Image" build, headers are generated at the very beginning, CTRL+C to interrupt the build.
+But to be safe, just complete the build...:')
+-->
 <!--
 Cross-compile:
 $ make -j$(nproc) ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- bcm2711_defconfig
