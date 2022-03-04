@@ -34,7 +34,11 @@ $ git clone https://github.com/tpm2-software/tpm2-tss ~/tpm2-tss
 $ cd ~/tpm2-tss
 $ git checkout 3.2.0
 
-
+$ cp -r ~/tpm2-embedded/tpm2-tss/cmake ~/tpm2-tss/
+$ cd ~/tpm2-tss/cmake
+$ rm -rf CMakeFiles/ CMakeCache.txt
+$ cmake -j$(nproc) .
+$ cmake --build . -j$(nproc)
 ```
 
 # Decouple TIS/PTP Library
@@ -77,7 +81,13 @@ $ cmake --build . -j$(nproc)
 
 # Sample Application
 
-
+```
+$ git clone https://github.com/wxleong/tpm2-mbedtls ~/tpm2-mbedtls
+$ cp -f ~/tpm2-embedded-linux/tpm2-mbedtls/Makefile ~/tpm2-mbedtls/code/
+$ cd ~/tpm2-mbedtls/code
+$ make -j$(nproc)
+$ ./main
+```
 
 # References
 
