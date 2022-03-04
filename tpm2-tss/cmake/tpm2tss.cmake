@@ -44,12 +44,12 @@ target_include_directories(tpm2tss
   ${TPM2TSS_ROOT_DIR}/src
   ${TPM2TSS_ROOT_DIR}/src/tss2-sys
   ${TPM2TSS_ROOT_DIR}/src/tss2-esys
+  ${TPM2TSS_ROOT_DIR}/src/tss2-tcti
   ${MBEDTLS_ROOT_DIR}/include
   PUBLIC
   ${TPM2TSS_ROOT_DIR}/include/tss2
 )
 
 #target_compile_definitions(tpm2tss PUBLIC -DMAXLOGLEVEL=6 -DTCTI_DEVICE -DOSSL=1)
-#target_compile_definitions(tpm2tss PUBLIC -DMAXLOGLEVEL=6 -DTCTI_DEVICE -DMBED=1)
+target_compile_definitions(tpm2tss PUBLIC -DMAXLOGLEVEL=6 -DTCTI_DEVICE -DMBED=1)
 #target_compile_definitions(tpm2tss PUBLIC -DMAXLOGLEVEL=6 -DTCTI_MSSIM -DMBED=1)
-target_compile_definitions(tpm2tss PUBLIC -DMAXLOGLEVEL=6 -DTCTI_EMBEDDED -DMBED=1)
