@@ -8,6 +8,7 @@ Enable OPTIGA™ TPM 2.0 on bare-metal / non-Linux embedded systems.
 
 - **[Prerequisites](#prerequisites)**
 - **[Decouple tpm2-tss Library](#decouple-tpm2-tss-library)**
+- **[Decouple TIS/PTP Library](#decouple-tisptp-library)**
 - **[Sample Application](#sample-application)**
 - **[References](#references)**
 - **[License](#license)**
@@ -16,12 +17,25 @@ Enable OPTIGA™ TPM 2.0 on bare-metal / non-Linux embedded systems.
 
 - Tested on Raspberry Pi 4 Model B with Iridium 9670 TPM 2.0 board [[1]](#1) 
 - Set up the Raspberry Pi according to [[2]](#2) but skipping sections "Set Up TSS and Tools" and "Enable SPI TPM 2.0"
-- Decouple tpm2-tss [[3]](#3) library following guide from [[5]](#5)
 - Install dependencies:
     ```
     $ sudo apt install cmake git bc bison flex libssl-dev make
     ```
     <!-- $ sudo apt install cmake crossbuild-essential-armhf -->
+- Download repos:
+    ```
+    $ git clone https://github.com/wxleong/tpm2-embedded ~/tpm2-embedded
+    ```
+
+# Decouple tpm2-tss Library
+
+```
+$ git clone https://github.com/tpm2-software/tpm2-tss ~/tpm2-tss
+$ cd ~/tpm2-tss
+$ git checkout 3.2.0
+
+
+```
 
 # Decouple TIS/PTP Library
 
@@ -52,7 +66,6 @@ Not all profiles will work, tested the following and NOT working:
 
 Extract TIS library:
 ```
-$ git clone https://github.com/wxleong/tpm2-embedded ~/tpm2-embedded
 $ cp -r ~/tpm2-embedded/linux/cmake ~/linux/
 $ cd ~/linux/cmake
 $ rm -rf CMakeFiles/ CMakeCache.txt
