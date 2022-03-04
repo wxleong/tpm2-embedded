@@ -1,3 +1,5 @@
+add_compile_options(-Wno-deprecated-declarations)
+
 set(TPM2TIS_ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../linux/cmake/)
 set(TPM2TSS_ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../)
 set(MBEDTLS_ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../mbedtls/)
