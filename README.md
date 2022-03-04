@@ -24,6 +24,7 @@ Enable OPTIGA™ TPM 2.0 on bare-metal / non-Linux embedded systems.
     <!-- $ sudo apt install cmake crossbuild-essential-armhf -->
 - Download repos:
     ```
+    $ git clone https://github.com/wxleong/tpm2-mbedtls ~/tpm2-mbedtls
     $ git clone https://github.com/wxleong/tpm2-embedded ~/tpm2-embedded
     ```
 
@@ -82,8 +83,7 @@ $ cmake --build . -j$(nproc)
 # Sample Application
 
 ```
-$ git clone https://github.com/wxleong/tpm2-mbedtls ~/tpm2-mbedtls
-$ cp -f ~/tpm2-embedded-linux/tpm2-mbedtls/Makefile ~/tpm2-mbedtls/code/
+$ cp -f ~/tpm2-embedded/tpm2-mbedtls/Makefile ~/tpm2-mbedtls/code/
 $ cd ~/tpm2-mbedtls/code
 $ make -j$(nproc)
 $ ./main

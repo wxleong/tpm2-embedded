@@ -3,16 +3,20 @@
  * Copyright (c) 2018 Intel Corporation
  * All rights reserved.
  */
-#ifndef TCTI_DEVICE_H
-#define TCTI_DEVICE_H
+#ifndef TCTI_EMBEDDED_H
+#define TCTI_EMBEDDED_H
 
 #include "tcti-common.h"
 
-#define TCTI_DEVICE_MAGIC 0x89205e72e319e5bbULL
+#define TCTI_EMBEDDED_MAGIC 0x3716704665907632ULL
 
 typedef struct {
     TSS2_TCTI_COMMON_CONTEXT common;
-    int fd;
-} TSS2_TCTI_DEVICE_CONTEXT;
+} TSS2_TCTI_EMBEDDED_CONTEXT;
 
-#endif /* TCTI_DEVICE_H */
+extern int tis_init(void);
+extern void tis_release(void);
+extern int tis_write(const unsigned char *buf, int size);
+extern int tis_read(unsigned char *buf, int size);
+
+#endif /* TCTI_EMBEDDED_H */
