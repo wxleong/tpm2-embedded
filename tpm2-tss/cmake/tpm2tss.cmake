@@ -22,6 +22,7 @@ message(STATUS "TSS2_SYS_FILES: ${TSS2_SYS_FILES}")
 message(STATUS "TSS2_ESYS_FILES: ${TSS2_ESYS_FILES}")
 message(STATUS "TSS2_TCTI_FILES: ${TSS2_TCTI_FILES}")
 message(STATUS "MBEDTLS_FILES: ${MBEDTLS_FILES}")
+message(STATUS "TPM2TIS_FILES: ${TPM2TIS_FILES}")
 
 #list(REMOVE_ITEM TSS2_ESYS_FILES ${TPM2TSS_ROOT_DIR}/src/tss2-esys/esys_crypto_mbed.c)
 list(REMOVE_ITEM TSS2_ESYS_FILES ${TPM2TSS_ROOT_DIR}/src/tss2-esys/esys_crypto_ossl.c)
@@ -38,6 +39,7 @@ add_library(tpm2tss STATIC
 )
 
 target_link_libraries(tpm2tss PRIVATE ${MBEDTLS_FILES})
+target_link_libraries(tpm2tss PRIVATE ${TPM2TIS_FILES})
 
 target_include_directories(tpm2tss
   PRIVATE
