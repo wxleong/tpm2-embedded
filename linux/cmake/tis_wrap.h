@@ -25,12 +25,11 @@
 #ifndef TIS_WRAP_H_
 #define TIS_WRAP_H_
 
-#include <stdlib.h>
+int tis_init(void);
+void tis_release(void);
 
 /* for tis lib testing */
-int tis_init(void);
 int tis_test(void);
-void tis_release(void);
 
 int tis_write(const unsigned char *buf, int size);
 int tis_read(unsigned char *buf, int size);

@@ -3,6 +3,9 @@
 
 #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-builtin-declaration-mismatch")
 
+# kernel root dir
+set(KERNEL_ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../)
+
 # kernel config is needed to prevent build errors
 #set(CONFIG_FILE ${CMAKE_CURRENT_SOURCE_DIR}/../include/generated/autoconf.h)
 set(KCONFIG_FILE ${CMAKE_CURRENT_SOURCE_DIR}/../include/linux/kconfig.h)
@@ -19,6 +22,7 @@ set(INCLUDE_ARCH_ARM_GEN_UAPI_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../arch/arm/includ
 
 set(TPM2TIS_FILES ${TPM2TIS_DIR}/tpm-interface.c
                   ${TPM2TIS_DIR}/tpm2-cmd.c
+                  ${TPM2TIS_DIR}/tpm1-cmd.c
                   ${TPM2TIS_DIR}/tpm_tis_core.c
                   ${TPM2TIS_DIR}/tpm-chip.c
                   ${TPM2TIS_DIR}/tpm_tis_spi_main.c
@@ -26,6 +30,9 @@ set(TPM2TIS_FILES ${TPM2TIS_DIR}/tpm-interface.c
                   ${CMAKE_CURRENT_SOURCE_DIR}/kernel_mock.c
                   ${CMAKE_CURRENT_SOURCE_DIR}/spi_wrap.c
                   ${CMAKE_CURRENT_SOURCE_DIR}/tis_wrap.c
+                  ${KERNEL_ROOT_DIR}/crypto/hash_info.c
+                  ${KERNEL_ROOT_DIR}/lib/string.c
+                  ${KERNEL_ROOT_DIR}/lib/ctype.c
 )
 
 message(STATUS "TPM2TIS_FILES: ${TPM2TIS_FILES}")

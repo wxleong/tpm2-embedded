@@ -22,7 +22,9 @@
  * SOFTWARE
  */
 
-#include <linux/spi/spi.h>
+#include "linux/spi/spi.h"
+#include "linux/slab.h"
+
 #include "tpm.h"
 #include "tpm_tis_spi.h"
 #include "tis_wrap.h"
