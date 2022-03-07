@@ -22,22 +22,26 @@
  * SOFTWARE
  */
 
+#include <linux/spi/spi.h>
 #include "tpm.h"
 #include "tpm_tis_spi.h"
 #include "tis_wrap.h"
 
 struct spi_device *spidev;
 
+extern int tpm_tis_spi_probe(struct spi_device *dev);
+extern void tpm_tis_spi_remove(struct spi_device *dev);
+
 int tis_init(void) {
     int rc = -1;
-    spidev = malloc(sizeof(struct spi_device));
+    spidev = kzalloc(sizeof(struct spi_device), GFP_KERNEL);
     struct device *dev = &spidev->dev;
 
     if (!spidev)
         return -1;
 
     /* Initialize SPI hardware layer */
-    ...
+    //...
 
     /* Initialize TIS layer */
     tpm_tis_spi_probe(spidev);
@@ -71,17 +75,17 @@ int tis_test(void) {
          * This is an expected error caused by tpm_pm_suspend() without actual power cycle.
          * Thus, TPM is still initialized.
          */
-        printf("Expected TPM Error 256 (0x100) due to no power cycle\r\n");
+        //printf("Expected TPM Error 256 (0x100) due to no power cycle\r\n");
     }
 
     if (tpm_get_random(chip, ba, sizeof(ba)) < 0)
         return -1;
 
-    printf("Get hardware random: Got %d bytes\r\n", sizeof(ba));
+    /*printf("Get hardware random: Got %d bytes\r\n", sizeof(ba));
     for (int i=0;i<sizeof(ba);i++) {
         printf("%02X",ba[i]);
     }
-    printf("\r\n");
+    printf("\r\n");*/
 
     if (tpm_pm_suspend(dev))
         return -1;
@@ -92,10 +96,10 @@ int tis_test(void) {
 void tis_release(void) {
     /* Release TIS layer */
     tpm_tis_spi_remove(spidev);
-    free(spidev);
+    kfree(spidev);
     
     /* Release SPI hardware layer */
-    ...
+    //...
 }
 
 int tis_write(const unsigned char *buf, int size) {
