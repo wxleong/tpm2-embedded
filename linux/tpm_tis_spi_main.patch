@@ -1,0 +1,21 @@
+diff --git a/drivers/char/tpm/tpm_tis_spi_main.c b/drivers/char/tpm/tpm_tis_spi_main.c
+index d64bea329..e4241aad2 100644
+--- a/drivers/char/tpm/tpm_tis_spi_main.c
++++ b/drivers/char/tpm/tpm_tis_spi_main.c
+@@ -210,7 +210,7 @@ static const struct tpm_tis_phy_ops tpm_spi_phy_ops = {
+        .write32 = tpm_tis_spi_write32,
+ };
+
+-static int tpm_tis_spi_probe(struct spi_device *dev)
++int tpm_tis_spi_probe(struct spi_device *dev)
+ {
+        struct tpm_tis_spi_phy *phy;
+        int irq;
+@@ -250,7 +250,7 @@ static int tpm_tis_spi_driver_probe(struct spi_device *spi)
+
+ static SIMPLE_DEV_PM_OPS(tpm_tis_pm, tpm_pm_suspend, tpm_tis_spi_resume);
+
+-static int tpm_tis_spi_remove(struct spi_device *dev)
++int tpm_tis_spi_remove(struct spi_device *dev)
+ {
+        struct tpm_chip *chip = spi_get_drvdata(dev);

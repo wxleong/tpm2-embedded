@@ -44,9 +44,15 @@ $ cmake --build . -j$(nproc)
 
 # Decouple TIS/PTP Library
 
-Download kernel source and generate the headers:
+Download kernel source:
 ```
 $ git clone --depth 1 --branch 1.20220120 https://github.com/raspberrypi/linux ~/linux
+```
+
+Edit the source according to `~/tpm2-embedded/linux/tpm_tis_spi_main.patch`.
+
+Generate the C headers:
+```
 $ cd ~/linux
 $ make -j$(nproc) bcm2711_defconfig
 $ make -j$(nproc) Image
