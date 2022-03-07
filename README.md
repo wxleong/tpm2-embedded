@@ -49,7 +49,9 @@ Download kernel source:
 $ git clone --depth 1 --branch 1.20220120 https://github.com/raspberrypi/linux ~/linux
 ```
 
-Edit the source according to `~/tpm2-embedded/linux/tpm_tis_spi_main.patch`.
+Edit the source according to:
+- `~/tpm2-embedded/linux/patch/tpm_tis_spi_main.patch`
+- `~/tpm2-embedded/linux/patch/tpm-interface.patch`
 
 Generate the C headers:
 ```

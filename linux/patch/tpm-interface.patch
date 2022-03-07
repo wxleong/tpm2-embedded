@@ -1,0 +1,18 @@
+diff --git a/drivers/char/tpm/tpm-interface.c b/drivers/char/tpm/tpm-interface.c
+index 1621ce818..b3f1642f8 100644
+--- a/drivers/char/tpm/tpm-interface.c
++++ b/drivers/char/tpm/tpm-interface.c
+@@ -508,7 +508,7 @@ static void __exit tpm_exit(void)
+        unregister_chrdev_region(tpm_devt, 2*TPM_NUM_DEVICES);
+        tpm_dev_common_exit();
+ }
+-
++/*
+ subsys_initcall(tpm_init);
+ module_exit(tpm_exit);
+
+@@ -516,3 +516,4 @@ MODULE_AUTHOR("Leendert van Doorn (leendert@watson.ibm.com)");
+ MODULE_DESCRIPTION("TPM Driver");
+ MODULE_VERSION("2.0");
+ MODULE_LICENSE("GPL");
++*/
