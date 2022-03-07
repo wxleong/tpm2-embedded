@@ -23,6 +23,9 @@ set(TPM2TIS_FILES ${TPM2TIS_DIR}/tpm-interface.c
                   ${TPM2TIS_DIR}/tpm-chip.c
                   ${TPM2TIS_DIR}/tpm_tis_spi_main.c
                   ${TPM2TIS_DIR}/tpm2-space.c
+                  ${CMAKE_CURRENT_SOURCE_DIR}/kernel_mock.c
+                  ${CMAKE_CURRENT_SOURCE_DIR}/spi_wrap.c
+                  ${CMAKE_CURRENT_SOURCE_DIR}/tis_wrap.c
 )
 
 message(STATUS "TPM2TIS_FILES: ${TPM2TIS_FILES}")
