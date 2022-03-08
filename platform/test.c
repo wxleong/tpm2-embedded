@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "rpi_spidrv.h"
+#include "spidrv.h"
 
 int main() {
 

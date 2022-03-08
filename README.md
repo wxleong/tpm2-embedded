@@ -102,7 +102,7 @@ $ ./main
 
 Raspberry Pi SPI interface (spidev) testing:
 ```
-$ cd ~/tpm2-embedded/linux/cmake
+$ cd ~/tpm2-embedded/platform
 $ gcc test.c rpi_spidrv.c -o test
 $ ./test
 ```
