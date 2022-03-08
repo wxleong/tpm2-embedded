@@ -10,6 +10,7 @@
 #include "linux/spi/spi.h"
 #include "linux/interrupt.h"
 #include "linux/freezer.h"
+#include "kernel_mock.h"
 
 unsigned long volatile __cacheline_aligned_in_smp __jiffy_arch_data jiffies;
 struct module __this_module;
@@ -18,8 +19,15 @@ const struct file_operations tpm_fops;
 const struct file_operations tpmrm_fops;
 atomic_t system_freezing_cnt;
 
-void *__kmalloc(size_t size, gfp_t flags) { return NULL; }
-void kfree(const void *objp) {}
+void *__kmalloc(size_t size, gfp_t flags)
+{
+    return malloc(size);
+}
+
+void kfree(const void *objp)
+{ 
+    free((void *)objp);
+}
 void *devm_kmalloc(struct device *dev, size_t size, gfp_t gfp) { return NULL; }
 int devm_add_action(struct device *dev, void (*action)(void *), void *data) { return 0; }
 extern int __must_check
