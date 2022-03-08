@@ -10,6 +10,7 @@ Enable OPTIGA™ TPM 2.0 on bare-metal / non-Linux embedded systems.
 - **[Decouple tpm2-tss Library](#decouple-tpm2-tss-library)**
 - **[Decouple TIS/PTP Library](#decouple-tisptp-library)**
 - **[Sample Application](#sample-application)**
+- **[Miscellaneous](#miscellaneous)**
 - **[References](#references)**
 - **[License](#license)**
 
@@ -95,6 +96,15 @@ $ cp -f ~/tpm2-embedded/tpm2-mbedtls/Makefile ~/tpm2-mbedtls/code/
 $ cd ~/tpm2-mbedtls/code
 $ make -j$(nproc)
 $ ./main
+```
+
+# Miscellaneous
+
+Raspberry Pi SPI interface (spidev) testing:
+```
+$ cd ~/tpm2-embedded/linux/cmake
+$ gcc test.c spi_drv.c -o test
+$ ./test
 ```
 
 # References
