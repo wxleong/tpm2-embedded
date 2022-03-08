@@ -22,8 +22,8 @@
  * SOFTWARE
  */
 
-#ifndef SPI_DRV_H_
-#define SPI_DRV_H_
+#ifndef RPI_SPIDRV_H_
+#define RPI_SPIDRV_H_
 
 #include <stddef.h>
 
@@ -31,4 +31,4 @@ int spidrv_init(void);
 int spidrv_xfer(const unsigned char *tx, const unsigned char *rx, size_t len);
 void spidrv_release(void);
 
-#endif /* SPI_DRV_H_ */
+#endif /* RPI_SPIDRV_H_ */

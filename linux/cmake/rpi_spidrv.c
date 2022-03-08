@@ -1,4 +1,4 @@
-#include "spi_drv.h"
+#include "rpi_spidrv.h"
 #include <linux/spi/spidev.h>
 #include <sys/ioctl.h>
 #include <stdio.h>
