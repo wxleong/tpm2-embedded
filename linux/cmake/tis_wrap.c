@@ -28,6 +28,7 @@
 #include "tpm.h"
 #include "tpm_tis_spi.h"
 #include "tis_wrap.h"
+#include "spi_wrap.h"
 
 struct spi_device *spidev;
 
@@ -43,7 +44,7 @@ int tis_init(void) {
         return -1;
 
     /* Initialize SPI hardware layer */
-    //...
+    spi_init();
 
     /* Initialize TIS layer */
     tpm_tis_spi_probe(spidev);
@@ -101,7 +102,7 @@ void tis_release(void) {
     kfree(spidev);
     
     /* Release SPI hardware layer */
-    //...
+    spi_release();
 }
 
 int tis_write(const unsigned char *buf, int size) {
