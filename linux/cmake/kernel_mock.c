@@ -28,7 +28,12 @@ void kfree(const void *objp)
 { 
     free((void *)objp);
 }
-void *devm_kmalloc(struct device *dev, size_t size, gfp_t gfp) { return NULL; }
+
+void *devm_kmalloc(struct device *dev, size_t size, gfp_t gfp)
+{
+    return malloc(size);
+}
+
 int devm_add_action(struct device *dev, void (*action)(void *), void *data) { return 0; }
 extern int __must_check
 devm_request_threaded_irq(struct device *dev, unsigned int irq,
