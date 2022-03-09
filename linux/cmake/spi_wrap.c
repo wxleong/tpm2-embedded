@@ -14,8 +14,9 @@ int spi_sync_locked(struct spi_device *spi, struct spi_message *message)
 
         if (xfer->tx_buf != NULL && xfer->rx_buf != NULL) {
             if (spidrv_xfer((const unsigned char *)xfer->tx_buf,
-                            (const unsigned char *)xfer->rx_buf, xfer->len))
+                            (const unsigned char *)xfer->rx_buf, xfer->len, xfer->cs_change))
                 return -EIO;
+            continue;
         }
 
         if (xfer->rx_buf != NULL) {
@@ -23,12 +24,13 @@ int spi_sync_locked(struct spi_device *spi, struct spi_message *message)
             for (i=0; i<xfer->len; i++) tmp[i] = 0;
 
             if (spidrv_xfer((const unsigned char *)tmp,
-                            (const unsigned char *)xfer->rx_buf, xfer->len)) {
+                            (const unsigned char *)xfer->rx_buf, xfer->len, xfer->cs_change)) {
                 free(tmp);
                 return -EIO; 
             }
 
             free(tmp);
+            continue;
         }
 
     }
