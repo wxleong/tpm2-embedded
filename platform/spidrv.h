@@ -28,7 +28,7 @@
 #include <stddef.h>
 
 int spidrv_init(void);
-int spidrv_xfer(const unsigned char *tx, const unsigned char *rx, size_t len);
+int spidrv_xfer(const unsigned char *tx, const unsigned char *rx, size_t len, int cs_change);
 void spidrv_release(void);
 
 #endif /* RPI_SPIDRV_H_ */

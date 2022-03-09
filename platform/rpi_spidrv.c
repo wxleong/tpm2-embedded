@@ -57,7 +57,6 @@ int spidrv_init()
         return 1;
 
     memset(&xfer, 0, sizeof(xfer)); 
-    xfer.cs_change = 0;
     xfer.bits_per_word = bits; 
     xfer.speed_hz = speed; 
     xfer.delay_usecs = 0;
@@ -65,13 +64,14 @@ int spidrv_init()
     return 0;
 }
 
-int spidrv_xfer(const unsigned char *tx, const unsigned char *rx, size_t len)
+int spidrv_xfer(const unsigned char *tx, const unsigned char *rx, size_t len, int cs_change)
 {
     int ret;
 
     xfer.tx_buf = (unsigned long)tx;
     xfer.rx_buf = (unsigned long)rx;
     xfer.len = len;
+    xfer.cs_change = cs_change; // 1: keep CS active after xfer, 0: deactivate CS after xfer
 
     ret = ioctl(fd, SPI_IOC_MESSAGE(1), &xfer);
     if (ret < 1)
