@@ -39,6 +39,9 @@ int tis_init(void) {
     int rc = -1;
     spidev = kzalloc(sizeof(struct spi_device), GFP_KERNEL);
     struct device *dev = &spidev->dev;
+    struct class *cls;
+    tpm_class = kzalloc(sizeof(*cls), GFP_KERNEL);
+    tpmrm_class = kzalloc(sizeof(*cls), GFP_KERNEL);
 
     if (!spidev)
         return -1;
@@ -100,7 +103,10 @@ void tis_release(void) {
     /* Release TIS layer */
     tpm_tis_spi_remove(spidev);
     kfree(spidev);
-    
+
+    kfree(tpm_class);
+    kfree(tpmrm_class);
+
     /* Release SPI hardware layer */
     spi_release();
 }
