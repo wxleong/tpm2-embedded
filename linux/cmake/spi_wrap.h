@@ -28,4 +28,8 @@
 void spi_init(void);
 void spi_release(void);
 
+extern int spidrv_init(void);
+extern int spidrv_xfer(const unsigned char *tx, const unsigned char *rx, size_t len);
+extern void spidrv_release(void);
+
 #endif /* SPI_WRAP_H_ */

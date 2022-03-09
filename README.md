@@ -9,6 +9,7 @@ Enable OPTIGA™ TPM 2.0 on bare-metal / non-Linux embedded systems.
 - **[Prerequisites](#prerequisites)**
 - **[Decouple tpm2-tss Library](#decouple-tpm2-tss-library)**
 - **[Decouple TIS/PTP Library](#decouple-tisptp-library)**
+- **[SPI Driver](#spi-driver)**
 - **[Sample Application](#sample-application)**
 - **[Miscellaneous](#miscellaneous)**
 - **[References](#references)**
@@ -88,6 +89,15 @@ $ cmake --build . -j$(nproc)
 ```
 <!-- Linux kernel .cofig file will be converted to ~/linux/include/generated/autoconf.h -->
 <!-- autoconf.h is included in ~/linux/kconfig.h -->
+
+# SPI Driver
+
+The sample application runs on Raspberry Pi and therefore the SPI driver is using spidev to access the TPM:
+```
+$ cd ~/tpm2-embedded/platform
+$ gcc -Wall -c rpi_spidrv.c -o rpi_spidrv.o
+$ ar rcs libspidrv.a rpi_spidrv.o 
+```
 
 # Sample Application
 
