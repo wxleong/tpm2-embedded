@@ -130,6 +130,10 @@ ssize_t tis_write(unsigned char *buf, size_t bufsiz) {
     struct tpm_header *header = (void *)buf;
     ssize_t ret, len;
 
+    /* request locality */
+    if (tpm_try_get_ops(chip))
+        return -EPIPE;
+
     ret = tpm2_prepare_space(chip, space, buf, bufsiz);
     /* If the command is not implemented by the TPM, synthesize a
      * response with a TPM2_RC_COMMAND_CODE return for user-space.
@@ -144,10 +148,6 @@ ssize_t tis_write(unsigned char *buf, size_t bufsiz) {
     if (ret)
         goto out_rc;
 
-    /* request locality */
-    if (tpm_try_get_ops(chip))
-        return -EPIPE;
-
     len = tpm_transmit(chip, buf, bufsiz);
     if (len < 0)
         ret = len;
@@ -156,11 +156,11 @@ ssize_t tis_write(unsigned char *buf, size_t bufsiz) {
         offset = 0;
     }
 
-    /* relinguish locality */
-    //tpm_put_ops(chip);
-
     if (!ret)
         ret = tpm2_commit_space(chip, space, buf, &len);
+
+    /* relinguish locality */
+    tpm_put_ops(chip);
 
 out_rc:
     return ret ? ret : command_size;
