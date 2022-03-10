@@ -71,7 +71,7 @@ extern void class_destroy(struct class *cls) {}
 
 int printk(const char *fmt, ...)
 {
-    printf(fmt);
+//    printf(fmt);
     return 0;
 }
 
