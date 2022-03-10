@@ -21,9 +21,9 @@ atomic_t system_freezing_cnt;
 
 void *__kmalloc(size_t size, gfp_t flags)
 {
-    unsigned char *ret = malloc(size);
-    memset(ret, 0, size);
-    return (void *)ret;
+    void *ptr = malloc(size);
+    memset(ptr, 0, size);
+    return ptr;
 }
 
 void kfree(const void *objp)
@@ -33,9 +33,9 @@ void kfree(const void *objp)
 
 void *devm_kmalloc(struct device *dev, size_t size, gfp_t gfp)
 {
-    unsigned char *ret = malloc(size);
-    memset(ret, 0, size);
-    return (void *)ret;
+    void *ptr = malloc(size);
+    memset(ptr, 0, size);
+    return ptr;
 }
 
 int devm_add_action(struct device *dev, void (*action)(void *), void *data) { return 0; }
