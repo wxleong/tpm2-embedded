@@ -31,6 +31,9 @@
 #include "spi_wrap.h"
 
 struct spi_device *spidev;
+unsigned char data_buffer[TPM_BUFSIZE];
+size_t response_length;
+size_t offset;
 
 extern int tpm_tis_spi_probe(struct spi_device *dev);
 extern void tpm_tis_spi_remove(struct spi_device *dev);
@@ -46,15 +49,14 @@ int tis_init(void) {
     if (!spidev)
         return -1;
 
-    /* Initialize SPI hardware layer */
+    /* initialize SPI hardware layer */
     spi_init();
 
-    /* Initialize TIS layer */
+    /* initialize TIS layer */
     tpm_tis_spi_probe(spidev);
 
-    /* To obtain locality */
     rc = tpm_pm_resume(dev);
-    if (rc != 0 && rc != 0x100) {
+    if (rc != 0) {
         return -1;
     }
 
@@ -111,40 +113,82 @@ void tis_release(void) {
     spi_release();
 }
 
-int tis_write(const unsigned char *buf, int size) {
+/**
+ * should be protected by mutex
+ * to support multithreading
+ */
+ssize_t tis_write(unsigned char *buf, size_t bufsiz) {
     struct device *dev = &spidev->dev;
     struct tpm_chip *chip = dev_get_drvdata(dev);
-    u8 *rxBuf = chip->work_space.context_buf;
-    u32 *rxSize = &chip->work_space.buf_size;
-    int ret;
+    struct tpm_space *space = &chip->work_space;
+    size_t command_size = bufsiz;
+    memcpy(data_buffer, buf, bufsiz);
+    buf = data_buffer;
+    bufsiz = sizeof(data_buffer);
+    response_length = 0;
 
-    memcpy(rxBuf, buf, size);
+    struct tpm_header *header = (void *)buf;
+    ssize_t ret, len;
 
-    ret = tpm_transmit(chip, rxBuf, TPM_BUFSIZE);
+    ret = tpm2_prepare_space(chip, space, buf, bufsiz);
+    /* If the command is not implemented by the TPM, synthesize a
+     * response with a TPM2_RC_COMMAND_CODE return for user-space.
+     */
+    if (ret == -EOPNOTSUPP) {
+        header->length = cpu_to_be32(sizeof(*header));
+        header->tag = cpu_to_be16(TPM2_ST_NO_SESSIONS);
+        header->return_code = cpu_to_be32(TPM2_RC_COMMAND_CODE |
+                          TSS2_RESMGR_TPM_RC_LAYER);
+        ret = sizeof(*header);
+    }
+    if (ret)
+        goto out_rc;
 
-    if (ret < 0) {
-        *rxSize = 0;
-        return ret;
+    /* request locality */
+    if (tpm_try_get_ops(chip))
+        return -EPIPE;
+
+    len = tpm_transmit(chip, buf, bufsiz);
+    if (len < 0)
+        ret = len;
+    else {
+        response_length = len;
+        offset = 0;
     }
 
-    chip->work_space.session_buf = rxBuf;
-    *rxSize = ret;
+    /* relinguish locality */
+    //tpm_put_ops(chip);
 
-    return size;
+    if (!ret)
+        ret = tpm2_commit_space(chip, space, buf, &len);
+
+out_rc:
+    return ret ? ret : command_size;
 }
 
-int tis_read(unsigned char *buf, int size) {
-    struct device *dev = &spidev->dev;
-    struct tpm_chip *chip = dev_get_drvdata(dev);
-    u8 *rxBuf = chip->work_space.context_buf;
-    u8 *rxCurPos = chip->work_space.session_buf;
-    u32 *rxSize = &chip->work_space.buf_size;
+/**
+ * should be protected by mutex
+ * to support multithreading
+ */
+ssize_t tis_read(unsigned char *buf, int size) {
 
-    if ((u32)((u32)rxCurPos - (u32)rxBuf) + (u32)size > *rxSize)
-        return -EIO;
+    ssize_t ret;
+printf("WENXIN tis_read offset %d, response_length %d\n", offset, response_length);
+    if (offset + size > response_length) {
+        ret = -EIO;
+        goto out;
+    }
 
-    memcpy(buf, rxCurPos, size);
-    chip->work_space.session_buf += size;
+    ret = size;
+    memcpy(buf, data_buffer + offset, ret);
+    offset += ret;
 
-    return size;
+    if (offset >= response_length) {
+        response_length = 0;
+        offset = 0;
+        memset(data_buffer, 0, sizeof(data_buffer));
+    }
+
+out:
+    return ret;
 }

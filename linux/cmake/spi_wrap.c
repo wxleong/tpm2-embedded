@@ -9,22 +9,36 @@ int spi_sync_locked(struct spi_device *spi, struct spi_message *message)
     struct spi_transfer *xfer;
     unsigned char *tmp;
     int i;
-
     list_for_each_entry(xfer, &message->transfers, transfer_list) {
 
         if (xfer->tx_buf != NULL && xfer->rx_buf != NULL) {
             if (spidrv_xfer((const unsigned char *)xfer->tx_buf,
                             (const unsigned char *)xfer->rx_buf, xfer->len, xfer->cs_change))
                 return -EIO;
+
             continue;
         }
 
         if (xfer->rx_buf != NULL) {
             tmp = malloc(xfer->len);
             for (i=0; i<xfer->len; i++) tmp[i] = 0;
-
             if (spidrv_xfer((const unsigned char *)tmp,
-                            (const unsigned char *)xfer->rx_buf, xfer->len, xfer->cs_change)) {
+                            (const unsigned char *)xfer->rx_buf,
+                            xfer->len, xfer->cs_change)) {
+                free(tmp);
+                return -EIO;
+            }
+
+            free(tmp);
+            continue;
+        }
+
+        if (xfer->tx_buf != NULL) {
+            tmp = malloc(xfer->len);
+            for (i=0; i<xfer->len; i++) tmp[i] = 0;
+            if (spidrv_xfer((const unsigned char *)xfer->tx_buf,
+                            (const unsigned char *)tmp,
+                            xfer->len, xfer->cs_change)) {
                 free(tmp);
                 return -EIO; 
             }

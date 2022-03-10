@@ -16,7 +16,7 @@ typedef struct {
 
 extern int tis_init(void);
 extern void tis_release(void);
-extern int tis_write(const unsigned char *buf, int size);
-extern int tis_read(unsigned char *buf, int size);
+extern ssize_t tis_write(unsigned char *buf, size_t bufsiz);
+extern ssize_t tis_read(unsigned char *buf, size_t bufsiz);
 
 #endif /* TCTI_EMBEDDED_H */

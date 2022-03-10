@@ -15,7 +15,7 @@ int spidrv_init()
 {
     int ret = 0;
     unsigned int mode = ( SPI_MODE_0 );
-    unsigned int speed = 1000000;
+    unsigned int speed = 100000; // 100kHz
     unsigned char bits = 8;
 
 

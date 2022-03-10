@@ -72,7 +72,7 @@ tcti_device_transmit (
                    command_size,
                    "sending %zu byte command buffer:",
                    command_size);
-    size = tis_write(command_buffer,
+    size = tis_write((unsigned char *)command_buffer,
                       command_size);
     if (size < 0) {
         return TSS2_TCTI_RC_IO_ERROR;

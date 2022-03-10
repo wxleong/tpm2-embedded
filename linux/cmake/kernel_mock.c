@@ -45,16 +45,31 @@ extern void devm_free_irq(struct device *dev, unsigned int irq, void *dev_id) {}
 /*int init_module(void) { return 0; }
 void cleanup_module(void) { }*/
 
-void _dev_err(const struct device *dev, const char *fmt, ...) {}
-void _dev_warn(const struct device *dev, const char *fmt, ...) {}
-void _dev_info(const struct device *dev, const char *fmt, ...) {}
+void _dev_err(const struct device *dev, const char *fmt, ...)
+{
+//    printf(fmt);
+}
+
+void _dev_warn(const struct device *dev, const char *fmt, ...)
+{
+//    printf(fmt);
+}
+
+void _dev_info(const struct device *dev, const char *fmt, ...)
+{
+//    printf(fmt);
+}
 
 extern struct class * __must_check __class_create(struct module *owner,
 						  const char *name,
 						  struct lock_class_key *key) { return NULL; }
 extern void class_destroy(struct class *cls) {}
 
-int printk(const char *fmt, ...) { return 0; }
+int printk(const char *fmt, ...)
+{
+    printf(fmt);
+    return 0;
+}
 
 void usleep_range(unsigned long min, unsigned long max) {}
 
@@ -68,16 +83,24 @@ void idr_destroy(struct idr *idr) {}
 
 void __exit tpm_dev_common_exit(void) {}
 
-unsigned long __get_free_pages(gfp_t gfp_mask, unsigned int order) { return 0; }
-void free_pages(unsigned long addr, unsigned int order) {}
+unsigned long __get_free_pages(gfp_t gfp_mask, unsigned int order)
+{
+    return (unsigned long)malloc(PAGE_SIZE);
+}
+
+void free_pages(unsigned long addr, unsigned int order)
+{
+    free((void *)addr);
+}
 
 void warn_slowpath_fmt(const char *file, int line, unsigned taint,
 		       const char *fmt, ...) {}
 
-unsigned long __msecs_to_jiffies(const unsigned int m) { return 0; }
-unsigned int jiffies_to_usecs(const unsigned long j) { return 0; }
-unsigned int jiffies_to_msecs(const unsigned long j) { return 0; }
-unsigned long __usecs_to_jiffies(const unsigned int u) { return 0; }
+// to-be-fixed
+unsigned long __msecs_to_jiffies(const unsigned int m) { return 1000; }
+unsigned int jiffies_to_usecs(const unsigned long j) { return j; }
+unsigned int jiffies_to_msecs(const unsigned long j) { return j; }
+unsigned long __usecs_to_jiffies(const unsigned int u) { return u; }
 
 struct device *get_device(struct device *dev) { return NULL; }
 void put_device(struct device *dev) {}

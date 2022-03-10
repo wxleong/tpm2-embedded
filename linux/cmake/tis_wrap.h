@@ -31,7 +31,7 @@ void tis_release(void);
 /* for tis lib testing */
 int tis_test(void);
 
-int tis_write(const unsigned char *buf, int size);
-int tis_read(unsigned char *buf, int size);
+ssize_t tis_write(unsigned char *buf, size_t bufsiz);
+ssize_t tis_read(unsigned char *buf, int size);
 
 #endif /* TIS_WRAP_H_ */
