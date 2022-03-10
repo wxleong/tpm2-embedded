@@ -173,7 +173,7 @@ out_rc:
 ssize_t tis_read(unsigned char *buf, int size) {
 
     ssize_t ret;
-printf("WENXIN tis_read offset %d, response_length %d\n", offset, response_length);
+
     if (offset + size > response_length) {
         ret = -EIO;
         goto out;
