@@ -67,12 +67,8 @@ int tis_test(unsigned char *buf, size_t bufsiz) {
     struct device *dev = &spidev->dev;
     struct tpm_chip *chip = dev_get_drvdata(dev);
 
-    tis_init();
-
     if (tpm_get_random(chip, buf, bufsiz) < 0)
         return -1;
-
-    tis_release();
 
     return 0;
 }
