@@ -101,6 +101,9 @@ $ ar rcs libspidrv.a rpi_spidrv.o
 
 # Sample Application
 
+Build the Mbed TLS static libraries according to [here](https://github.com/wxleong/tpm2-mbedtls#mbed-tls-library).
+
+Build the sample application:
 ```
 $ cp -f ~/tpm2-embedded/tpm2-mbedtls/Makefile ~/tpm2-mbedtls/code/
 $ cd ~/tpm2-mbedtls/code
@@ -127,8 +130,7 @@ $ ./test
 Memory footprints collected from Raspberry Pi:
 - libtpm2tss.a, 1702654 bytes
 - libspidrv.a, 2252 bytes
-- libtpm2tis.a, 134634 bytes
-- main, 842320 bytes
+- libtpm2tis.a, 134606 bytes
 
 # References
 
