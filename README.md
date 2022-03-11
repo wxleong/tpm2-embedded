@@ -124,6 +124,12 @@ $ gcc test.c libtpm2tis.a ../../tpm2-embedded/platform/libspidrv.a -o test
 $ ./test
 ```
 
+Memory footprints collected from Raspberry Pi:
+- libtpm2tss.a, 1702654 bytes
+- libspidrv.a, 2252 bytes
+- libtpm2tis.a, 134634 bytes
+- main, 842320 bytes
+
 # References
 
 <a id="1">[1] https://www.infineon.com/cms/en/product/evaluation-boards/iridium9670-tpm2.0-linux/</a><br>
