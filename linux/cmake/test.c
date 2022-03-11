@@ -20,7 +20,7 @@ int main() {
 
     printf("\n");
 
-    //tis_release();
+    tis_release();
 
     return 0;
 }
