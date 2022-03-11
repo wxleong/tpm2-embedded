@@ -1,5 +1,3 @@
-# Under Construction....
-
 # Introduction
 
 Enable OPTIGA™ TPM 2.0 on bare-metal / non-Linux embedded systems.
