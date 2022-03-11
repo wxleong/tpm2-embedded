@@ -101,7 +101,7 @@ $ ar rcs libspidrv.a rpi_spidrv.o
 
 # Sample Application
 
-Build the Mbed TLS static libraries according to [here](https://github.com/wxleong/tpm2-mbedtls#mbed-tls-library).
+Build the Mbed TLS static libraries according to [[6]](#6).
 
 Build the sample application:
 ```
@@ -139,6 +139,7 @@ Memory footprints collected from Raspberry Pi:
 <a id="3">[3] https://github.com/tpm2-software/tpm2-tss</a><br>
 <a id="4">[4] https://github.com/wxleong/tpm2-mbedtls</a><br>
 <a id="5">[5] https://github.com/wxleong/tpm2-embedded-linux</a><br>
+<a id="6">[6] https://github.com/wxleong/tpm2-mbedtls#mbed-tls-library><br>
 
 # License
 
