@@ -63,40 +63,16 @@ int tis_init(void) {
     return 0;
 }
 
-int tis_test(void) {
+int tis_test(unsigned char *buf, size_t bufsiz) {
     struct device *dev = &spidev->dev;
     struct tpm_chip *chip = dev_get_drvdata(dev);
-    unsigned char ba[10];
-    int rc = -1;
 
-    memset(ba, 0, sizeof(ba));
+    tis_init();
 
-    rc = tpm_pm_resume(dev);
-    if (rc != 0 && rc != 0x100) {
-        return -1;
-    } else if (rc == 0x100) {
-        /**
-         * TPM Error (0x100):
-         * Error (2.0): TPM_RC_INITIALIZE
-         * Description: TPM not initialized by TPM2_Startup or already initialized
-         *
-         * This is an expected error caused by tpm_pm_suspend() without actual power cycle.
-         * Thus, TPM is still initialized.
-         */
-        //printf("Expected TPM Error 256 (0x100) due to no power cycle\r\n");
-    }
-
-    if (tpm_get_random(chip, ba, sizeof(ba)) < 0)
+    if (tpm_get_random(chip, buf, bufsiz) < 0)
         return -1;
 
-    /*printf("Get hardware random: Got %d bytes\r\n", sizeof(ba));
-    for (int i=0;i<sizeof(ba);i++) {
-        printf("%02X",ba[i]);
-    }
-    printf("\r\n");*/
-
-    if (tpm_pm_suspend(dev))
-        return -1;
+    tis_release();
 
     return 0;
 }

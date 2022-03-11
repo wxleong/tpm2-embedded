@@ -29,7 +29,7 @@ int tis_init(void);
 void tis_release(void);
 
 /* for tis lib testing */
-int tis_test(void);
+int tis_test(unsigned char *buf, size_t bufsiz);
 
 ssize_t tis_write(unsigned char *buf, size_t bufsiz);
 ssize_t tis_read(unsigned char *buf, int size);

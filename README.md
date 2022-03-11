@@ -117,6 +117,13 @@ $ gcc test.c rpi_spidrv.c -o test
 $ ./test
 ```
 
+Linux TIS interface (tis_wrap) testing:
+```
+$ cd ~/linux/cmake
+$ gcc test.c libtpm2tis.a ../../tpm2-embedded/platform/libspidrv.a -o test
+$ ./test
+```
+
 # References
 
 <a id="1">[1] https://www.infineon.com/cms/en/product/evaluation-boards/iridium9670-tpm2.0-linux/</a><br>
