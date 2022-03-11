@@ -95,7 +95,7 @@ $ cmake --build . -j$(nproc)
 The sample application runs on Raspberry Pi and therefore the SPI driver is using spidev to access the TPM:
 ```
 $ cd ~/tpm2-embedded/platform
-$ gcc -Wall -c rpi_spidrv.c -o rpi_spidrv.o
+$ gcc -Wall -nostdlib -c rpi_spidrv.c -o rpi_spidrv.o
 $ ar rcs libspidrv.a rpi_spidrv.o 
 ```
 
@@ -113,14 +113,14 @@ $ ./main
 Raspberry Pi SPI interface (spidev) testing:
 ```
 $ cd ~/tpm2-embedded/platform
-$ gcc test.c rpi_spidrv.c -o test
+$ gcc -Wall test.c rpi_spidrv.c -o test
 $ ./test
 ```
 
 Linux TIS interface (tis_wrap) testing:
 ```
 $ cd ~/linux/cmake
-$ gcc test.c libtpm2tis.a ../../tpm2-embedded/platform/libspidrv.a -o test
+$ gcc -Wall test.c libtpm2tis.a ../../tpm2-embedded/platform/libspidrv.a -o test
 $ ./test
 ```
 

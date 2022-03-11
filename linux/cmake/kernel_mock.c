@@ -81,7 +81,7 @@ int alloc_chrdev_region(dev_t *dev, unsigned baseminor, unsigned count,
 			const char *name) { return 0; }
 void unregister_chrdev_region(dev_t from, unsigned count) {}
 
-int tpm_dev_common_init(void) {}
+int tpm_dev_common_init(void) { return 0; }
 
 void idr_destroy(struct idr *idr) {}
 

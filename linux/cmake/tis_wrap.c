@@ -100,7 +100,8 @@ ssize_t tis_write(unsigned char *buf, size_t bufsiz) {
     response_length = 0;
 
     struct tpm_header *header = (void *)buf;
-    ssize_t ret, len;
+    ssize_t ret;
+    size_t len;
 
     /* request locality */
     if (tpm_try_get_ops(chip))

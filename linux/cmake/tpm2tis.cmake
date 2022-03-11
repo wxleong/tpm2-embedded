@@ -1,7 +1,7 @@
 # for cross-compile
 #set(CMAKE_C_COMPILER arm-linux-gnueabihf-gcc)
 
-#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-builtin-declaration-mismatch")
+add_compile_options(-Wall -nostdlib)
 
 # kernel root dir
 set(KERNEL_ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../)
